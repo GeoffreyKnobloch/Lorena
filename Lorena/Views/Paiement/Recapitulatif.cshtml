@@ -1,0 +1,140 @@
+﻿@model Lorena.Models.Entity.ViewModel.RecapitulatifViewModel
+
+@{
+    ViewBag.Title = "Recapitulatif";
+}
+
+<div id="all">
+
+    <h2>Le récapitulatif de ma commande</h2>
+
+    <div class="col-md4">
+
+        @if (Model.RendezVous != null)
+        {
+            <h4>Mon rendez-vous</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>@Html.DisplayNameFor(m => m.RendezVous.ChoixSoins)</dt>
+                <dd>
+                    <ul>
+                        @foreach (var soin in Model.RendezVous.ChoixSoins)
+                        {
+                            <li>@soin.Libelle</li>
+                        }
+                    </ul>
+                </dd>
+
+                <dt>@Html.DisplayNameFor(m => m.RendezVous.Creneau)</dt>
+                <dd>
+                    Le @Model.RendezVous.Creneau.DateDebut.Date.ToShortDateString() de @Model.RendezVous.Creneau.DateDebut.ToShortTimeString() à
+                    @Model.RendezVous.Creneau.DateFin.ToShortTimeString()
+                    avec @Model.RendezVous.Masseuse.Prenom
+                </dd>
+            </dl>
+            <hr />
+        }
+        else
+        {
+            <p>@Model.MessageErreur</p>
+            <p>@Html.ActionLink("Prendre rendez-vous", "Index", "Soins")</p>
+        }
+    </div>
+
+    <div class="col-md4">
+
+        @if (Model.Produits != null && Model.Produits.Count > 0)
+        {
+            <h4>Ma commande de produits de beautés</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dd>
+                    <ul>
+                        @foreach (var produit in Model.Produits)
+                        {
+                            <li>@produit.Libelle : @produit.Prix €</li>
+                        }
+
+                    </ul>
+                </dd>
+            </dl>
+            <hr />
+        }
+        else
+        {
+            if (Model.RendezVous != null)
+            {
+                <p>Vous souhaitez profiter du rendez-vous pour acheter un de nos produits de beautés ?</p>
+            }
+            else
+            {
+                <p>Vous n'avez pas commandé de produits de beautés</p>
+            }
+            @Html.ActionLink("Ajouter des produits de beautés à ma commande", "Index", "Produits")
+        }
+    </div>
+
+    
+        @if (Model.PrixTotal != 0)
+        {
+            <div class="col-md4">
+                <dl class="dl-horizontal">
+                    <dt>@Html.DisplayNameFor(model => model.PrixTotal)</dt>
+                    <dd>@Html.DisplayFor(model => model.PrixTotal) €</dd>
+                </dl>
+            </div>
+
+            <div class=" row col-md4">
+                <!--Form pour faire passer la commande au module de paiement :-->
+                @using (Html.BeginForm("Confirmer", "Paiement"))
+                {
+                    @Html.HiddenFor(m => m.MessageErreur)
+                    @Html.HiddenFor(m => m.PrixTotal)
+                    if (Model.RendezVous != null)
+                    {                    
+                        @Html.HiddenFor(m => m.RendezVous.Cliente.Id)
+                        @Html.HiddenFor(m => m.RendezVous.Masseuse.Id)
+                        @Html.HiddenFor(m => m.RendezVous.Creneau.Id)
+                        @Html.HiddenFor(m => m.RendezVous.Creneau.DateDebut)
+                        @Html.HiddenFor(m => m.RendezVous.Creneau.DateFin)
+                        @Html.HiddenFor(m => m.RendezVous.Creneau.Text)
+                        if (Model.RendezVous.ChoixSoins != null && Model.RendezVous.ChoixSoins.Count > 0)
+                        {
+                            for (int i = 0; i < Model.RendezVous.ChoixSoins.Count; i++)
+                            {
+                               @Html.HiddenFor(m => m.RendezVous.ChoixSoins[i].Id)
+                                @Html.HiddenFor(m => m.RendezVous.ChoixSoins[i].Libelle)
+                                @Html.HiddenFor(m => m.RendezVous.ChoixSoins[i].Prix)
+                                @Html.HiddenFor(m => m.RendezVous.ChoixSoins[i].ImageURL)
+                                @Html.HiddenFor(m => m.RendezVous.ChoixSoins[i].Duree)
+
+                            }
+                        }                        
+                    }
+                    if (Model.Produits != null && Model.Produits.Count > 0)
+                    {
+                        for (int i = 0; i < Model.Produits.Count; i++)
+                        {
+                            @Html.HiddenFor(m => m.Produits[i].Id)
+                            @Html.HiddenFor(m => m.Produits[i].Libelle)
+                            @Html.HiddenFor(m => m.Produits[i].Prix)
+                            @Html.HiddenFor(m => m.Produits[i].Description)
+                        }
+                    }
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Confirmer ma commande" class="btn btn-default" />
+                        </div>
+                        <div class="col-md-offset-2 col-md-10">
+                            @Html.ActionLink("Annuler ma commande", "AnnulerCommande", "Paiement", new { @class = "btn btn-default" })
+                        </div>
+                    </div>
+                }
+
+                
+                @*@Html.ActionLink("Confirmer ma commande", "Confirmer", new { /* id = Model.PrimaryKey */ }, new { @class = "btn btn-default" })*@
+                @*@Html.ActionLink("Annuler ma commande", "AnnulerCommande", "Paiement", new { @class = "btn btn-default" })*@
+            </div>
+        }
+
+</div>

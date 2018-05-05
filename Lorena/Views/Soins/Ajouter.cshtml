@@ -1,0 +1,113 @@
+﻿@model Lorena.Models.Entity.ViewModel.AjoutSoinViewModel
+
+@{
+    ViewBag.Title = "Ajouter";
+}
+
+<h2>Ajouter</h2>
+
+@using (Html.BeginForm("Ajouter", "Soins", null, FormMethod.Post, new { enctype = "multipart/form-data" })) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Soin</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.Libelle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Soin.Libelle, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Soin.Libelle, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Soin.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Soin.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.Duree, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Soin.Duree, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Soin.Duree, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.Prix, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Soin.Prix, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Soin.Prix, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.ImageURL, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                
+                <input id="Soin.ImageURL" title="Upload a product image" class="form-control"
+                       type="file" name="file" />
+                
+                @Html.ValidationMessageFor(model => model.Soin.ImageURL, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <p>Choisissez une image de type 300x200 ou proportionnel de largeur inférieur à 700 pixels pour un résultat optimal.</p>
+        
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.Produits, htmlAttributes : new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @if(Model.Produits == null || Model.Produits.Count == 0)
+                {
+                   <p>Vous n'avez aucun produits enregistrés.</p>
+                }
+                else
+                {
+                   
+                    for (int i = 0; i < Model.Produits.Count; i++)
+                    {
+                        <div>
+                            @Html.LabelFor(m => m.Produits[i].EstSelectionne, Model.Produits[i].Produit.Libelle)
+                            @Html.CheckBoxFor(m => m.Produits[i].EstSelectionne)
+                            @Html.ValidationMessageFor(model => model.Produits[i].EstSelectionne, "", new { @class = "text-danger" })
+
+                            @Html.HiddenFor(m => m.Produits[i].Produit.Id)
+                            @Html.HiddenFor(m => m.Produits[i].Produit.Libelle)
+                            @Html.HiddenFor(m => m.Produits[i].Produit.Prix)
+                            @Html.HiddenFor(m => m.Produits[i].Produit.Description)
+                            @Html.HiddenFor(m => m.Produits[i].Produit.EnVente)
+                            
+                        </div>
+                    }
+                }
+                
+                @Html.ActionLink("Ajouter un produit", "Ajouter", "Produits")
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Soin.EnVente, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.Soin.EnVente)
+                    @Html.ValidationMessageFor(model => model.Soin.EnVente, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Ajouter soin" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Retour à la liste des soins", "Index")
+</div>

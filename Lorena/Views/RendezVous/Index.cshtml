@@ -1,0 +1,60 @@
+﻿@model List<Lorena.Models.Entity.Soin>
+
+@{
+    ViewBag.Title = "Rendez-vous";
+}
+<script src="@Url.Content("~/Scripts/DayPilot/daypilot-all.min.js")" type="text/javascript"></script>
+
+
+<div class="container" >
+<div style="float:left">
+    @Html.ActionLink("Précédente", "Precedent", new { jSONChoixSoins = Json.Encode(Model) }, new { @class = "btn btn-default" })
+</div>
+<div style="float:left;width:70%">
+        <!--Calendrier-->
+        @Html.DayPilotCalendar("dpc", new DayPilotCalendarConfig
+{
+    BackendUrl = Url.Content("~/RendezVous/Backend"),
+    ViewType = DayPilot.Web.Mvc.Enums.Calendar.ViewType.Week,
+    StartDate = (DateTime)HttpContext.Current.Session["DateCalendrier"],
+    EventMoveHandling = DayPilot.Web.Mvc.Events.Calendar.EventMoveHandlingType.CallBack,
+    EventResizeHandling = DayPilot.Web.Mvc.Events.Calendar.EventResizeHandlingType.CallBack,
+    TimeRangeSelectedHandling = DayPilot.Web.Mvc.Events.Calendar.TimeRangeSelectedHandlingType.CallBack,
+    TimeRangeSelectedJavaScript = "dpc.timeRangeSelectedCallBack(start, end, null, { name: prompt('Votre rendez-vous :', 'Mon RDV') });",
+    
+})
+    </div>
+
+    <div style="float:left">
+        <!--Faille de sécurité à corriger en faisant un HttpPost sur cette url.
+            Façon possible : Faire un formulaire et un boutton-->
+        @Html.ActionLink("Suivante", "Suivant", new { jSONChoixSoins = Json.Encode(Model) }, new { @class = "btn btn-default" })
+    </div>
+
+    <div class="clearfix">
+    </div>
+</div>
+
+<div>
+    <p>@Html.ActionLink("Confirmer le RDV", "Recapitulatif", "Paiement", null, new { @class = "btn btn-default" })</p>
+    <p>@Html.ActionLink("Retour à la sélection des soins", "Index", "Soins")</p>
+</div>
+
+<div class="jumbotron">
+    <p>Vous avez choisit les soins suivants :</p>
+    @{
+        int tempsTotal = 0;
+        <ul>
+
+            @foreach (var soin in Model)
+            {
+                tempsTotal += soin.Duree;
+
+                <li>
+                    <p>@soin.Libelle</p>
+                </li>
+            }
+        </ul>
+        <p>Choisissez un rendez-vous de @tempsTotal minutes dans le calendrier</p>
+    }
+</div>

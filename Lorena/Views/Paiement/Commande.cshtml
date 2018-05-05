@@ -1,0 +1,113 @@
+﻿@model Lorena.Models.Entity.Commande
+
+<div style="border:5px solid">
+    <h4>Commande passée le @Model.DateCreation.Date.ToShortDateString()</h4>
+    <hr />
+    <div class="form-horizontal">
+        @{
+            double totalSoins = 0;
+            
+            double totalPdt = 0;
+            
+        }
+
+        @if (Model.RendezVous != null && Model.RendezVous.Id != 0)
+        {
+            <hr />
+            <p>Rendez-Vous pris pour le @Model.RendezVous.Creneau.DateDebut.Date.ToShortDateString() à @Model.RendezVous.Creneau.DateDebut.ToShortTimeString()</p>
+            <hr />
+            <div>
+                <p>Soins choisis :</p>
+                <ul>
+                    
+                    @foreach (var soin in Model.RendezVous.ChoixSoins)
+                    {
+
+                        totalSoins += soin.Prix;
+                        <li>
+                            <p>@soin.Libelle : @soin.Prix €</p>                                                                                   
+
+                        </li>
+                    }
+                </ul>
+            @if (Model.RendezVous != null && Model.RendezVous.Id != 0 && Model.Produits != null && Model.Produits.Count > 0) // Ne s'affiche que si les 2 sont non null
+            {
+                    <p>Total : @totalSoins €</p>
+            }
+            </div>
+        }
+
+        @if (Model.Produits != null && Model.Produits.Count > 0)
+        {            
+            <div>
+                <hr />
+                <p>Liste des produits commandés</p>
+                <hr />
+                <ul>
+
+                    @foreach (var pdt in Model.Produits)
+                    {
+                        totalPdt += pdt.Prix;
+
+                        <li>@pdt.Libelle : @pdt.Prix €</li>
+                        
+                            
+                        
+                    }
+                </ul>
+
+                @if (Model.RendezVous != null && Model.RendezVous.Id != 0 && Model.Produits != null && Model.Produits.Count > 0) // Ne s'affiche que si les 2 sont non null
+                {
+                    <p>Total : @totalPdt €</p>
+                }
+                
+            </div>
+        }
+
+            @{ 
+                double totalCmde = totalPdt + totalSoins;
+             }
+
+            <div>
+                <hr />
+                <p>Total de la commande : @totalCmde €</p>               
+            </div>
+        
+        
+        @if (Model.EtatCommande == Lorena.Models.Entity.Enum.EnumEtatCommande.Traitee)
+        {
+            <p>Service réalisé et récéptionné le @Model.DateReception</p>                
+        }
+
+        @if (User.IsInRole("admin") || User.IsInRole("masseuse")) //Ici conditionner la vue partielle qui s'affiche au sein d'un même div et UpdateTarget pour les 2 le même id
+        {            
+            <div id="@Model.Id">
+                @if (Model.EtatCommande == Lorena.Models.Entity.Enum.EnumEtatCommande.Traitee)
+                {
+                    <div>
+                        @*@Ajax.ActionLink("Réouvrir la commande", "OuvrirCommande", new { Id = Model.Id }, new AjaxOptions()
+                   {
+                       Confirm = "Êtes vous sûre de vouloir réouvrir la commande sélectionnée ?",
+                       UpdateTargetId = "ModifCmd"
+                   })*@
+
+                        @Html.Partial("OuvrirCommande", Model.Id);
+                    </div>
+                }
+                else
+                {
+                    <div>
+                        @Html.Partial("ValiderCommande", Model.Id);
+
+                        @*@Ajax.ActionLink("Valider la commande", "ValiderCommande", new { Id = Model.Id }, new AjaxOptions()
+                   {
+                       Confirm = "La commande a-t-elle bien été livrée ?",
+                       UpdateTargetId = "ModifCmd"
+                   })*@
+                    </div>
+                }
+            </div>
+        }
+        
+    </div>
+</div>

@@ -1,0 +1,69 @@
+﻿@model Lorena.Models.Entity.ViewModel.SoinViewModel
+
+<div style="margin:20px">
+    <div style="text-align:center" >
+        <h4 >@Html.DisplayFor(model => model.Soin.Libelle)</h4>
+        <hr />
+
+        @if (!Model.Soin.ImageURL.IsEmpty())
+        {            
+            <div style="height:200px;margin:10px">
+                <img src="@Model.Soin.ImageURL" runat="server" style="max-width:400px;width:100%" />
+            </div>
+        }
+        <div style="margin:1px">
+            <p>@Html.DisplayFor(model => model.Soin.Description)</p>
+
+            <hr />
+
+            <dl class="dl-horizontal">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Soin.Duree)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Soin.Duree) minutes
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Soin.Prix)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Soin.Prix) €
+                </dd>
+
+                @if (User.IsInRole("admin") || User.IsInRole("masseuse") )
+            {
+                    <dt>@Html.DisplayNameFor(model => model.Soin.EnVente)</dt>
+                    <dd>@Html.DisplayFor(model => model.Soin.EnVente)</dd>
+                }
+
+            </dl>
+        </div>
+    </div>
+
+    <p>@Html.RouteLink("Produits utilisés", new { action = "Index", Controller = "Produits", id = Model.Soin.Id })</p>
+
+    @if (User.IsInRole("admin") || User.IsInRole("masseuse") )
+    {
+        <p>@Html.ActionLink("Modifier", "Modifier", new { id = Model.Soin.Id })</p>
+    }
+    else
+    {
+
+        <dl class="dl-horizontal" style="border:3px solid green">
+            <dt>@Html.DisplayNameFor(model => model.EstSelectionne)</dt>
+            <dd>
+                @Html.EditorFor(model => model.EstSelectionne)
+                @Html.HiddenFor(model => model.Soin.Id)
+                @Html.HiddenFor(model => model.Soin.Libelle)
+                @Html.HiddenFor(model => model.Soin.Prix)
+                @Html.HiddenFor(model => model.Soin.Duree)
+                @Html.HiddenFor(model => model.Soin.Description)
+                @Html.HiddenFor(model => model.Soin.EnVente)
+                @Html.HiddenFor(model => model.Soin.ImageURL)
+            </dd>
+        </dl>
+    }
+
+</div>

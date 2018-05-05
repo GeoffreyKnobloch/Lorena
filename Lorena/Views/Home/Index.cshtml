@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Accueil";
+}
+
+<div class="row" style="margin:20px">
+    <div class="col-md-4">
+        <h2>Soin à la carte</h2>
+        <div style="height:200px;margin:10px">
+            <img src="~/ImagesAccueil/SoinVisage.jpg" runat="server" style="max-width:400px;width:100%" />
+        </div>
+        <div style="height:100px;margin:10px">
+            <p>
+                Nous n'avons pas toutes le même stress, les mêmes envies, et ça dépend aussi des jours !
+                Choisissez le soin qui vous correspond au sein d'une gamme en constante évolution !
+            </p>
+        </div>
+        <p>        
+            @Html.ActionLink("La carte", "Index", "Soins", null, new { @class= "btn btn-default"})
+        </p>
+        
+    </div>
+    <div class="col-md-4">
+        <h2>100% détente</h2>
+        <div style="height:200px;margin:10px">
+            <img src="~/ImagesAccueil/femmeJoyeuse.png" runat="server" style="max-width:400px;width:100%" />
+            </div>
+        <div style="height:100px;margin:10px">
+            <p>
+                Le service de massage est réservé à un public féminin et est executé par une professionnelle de la santé qui saura garantir votre confort.
+            </p>
+        </div>
+            <p>
+                @Html.ActionLink("En savoir plus", "About", "Home", null, new { @class = "btn btn-default" })
+            </p>
+        
+    </div>
+    <div class="col-md-4">
+        <h2>Réservation facilitée</h2>
+        <div style="height:200px;margin:10px">
+            <img src="~/ImagesAccueil/calendrier.jpg" runat="server" style="max-width:400px;width:100%" />
+        </div>
+        <div style="height:100px;margin:10px">
+            <p>
+                Réservation innovante : accédez à l'agenda de votre masseuse et sélectionnez un créneau horaire disponible, ou contactez Geoffrey au 0607954785
+            </p>
+        </div>
+            <p>
+                @Html.ActionLink("Réserver", "Index", "RendezVous", null, new { @class = "btn btn-default" })
+            </p>
+        
+    </div>
+</div>
+
+<div class="jumbotron">
+    <h1>Massage au féminin</h1>
+    <p class="lead">Le massage à domicile au féminin : offrez vous un moment de détente</p>
+    <p>@Html.ActionLink("Découvrir", "Index", "Soins", null, new { @class = "btn btn-primary btn-lg" })</p>
+</div>

@@ -1,0 +1,35 @@
+﻿
+@model Lorena.Models.Entity.ViewModel.UtilisateurViewModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Authentification</h2>
+
+@if (Model.EstIdentifie)
+{
+    <h2>Bonjour @((Model.Utilisateur != null) ? Model.Utilisateur.Login : "")</h2>
+
+    <h3>Souhaitez vous vous authentifier avec un autre compte ?</h3>
+}
+
+@using (Html.BeginForm())
+{
+    <div>
+        @Html.LabelFor(m => m.Utilisateur.Login)
+        @Html.TextBoxFor(m => m.Utilisateur.Login)
+        @Html.ValidationMessageFor(m => m.Utilisateur.Login)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Utilisateur.MdpCripte)
+        @Html.PasswordFor(m => m.Utilisateur.MdpCripte)
+        @Html.ValidationMessageFor(m => m.Utilisateur.MdpCripte)
+    </div>
+    <input type="submit" value="Se connecter" />
+
+    <br />
+
+    <div>
+        @Html.ActionLink("Créer un compte", "CreerCompte")
+    </div>
+}

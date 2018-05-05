@@ -1,0 +1,44 @@
+﻿@model Lorena.Models.Entity.ViewModel.SuiviCommandeViewModel
+
+@{
+    ViewBag.Title = "Suivi";
+}
+
+<h2>@Model.Message</h2>
+
+
+@if (Model.CommandesAVenir.Count > 0 && Model.CommandesPassees.Count > 0)
+{
+    <!-- Ne met un titre que si les deux catégories sont peuplées -->
+    <h3>Les commandes en cours</h3>
+}
+
+    @if (Model.CommandesAVenir.Count > 0)
+    {
+        <div class="row">
+            @for (int i = 0; i < Model.CommandesAVenir.Count; i++)
+            {
+                <div class="col-md-4">
+                    @Html.Partial("Commande", Model.CommandesAVenir[i], null)
+                </div>
+            }            
+        </div>
+    }
+
+@if (Model.CommandesAVenir.Count > 0 && Model.CommandesPassees.Count > 0)
+{
+    <!-- Ne met un titre que si les deux catégories sont peuplées -->
+    <h3>Historique des commandes passées</h3>
+}
+
+@if (Model.CommandesPassees.Count > 0)
+{
+    <div class="row">
+        @for (int i = 0; i < Model.CommandesPassees.Count; i++)
+        {
+            <div class="col-md-4">
+                @Html.Partial("Commande", Model.CommandesPassees[i], null)
+            </div>
+        }
+    </div>
+}

@@ -1,0 +1,56 @@
+﻿@model Lorena.Models.Entity.ViewModel.PaiementViewModel
+
+@{
+    ViewBag.Title = "Paiement";
+}
+
+<h2>Paiement de votre commande</h2>
+
+<p>Le paiement en ligne n'est pas encore implémenté.</p>
+<p>Cliquez sur Payer pour effectivement nous envoyer votre commande et votre rendez-vous.</p>
+<p>Rien ne vous sera débité, vous pourrez payer lors du rendez-vous directement.</p>
+
+<div>
+    <!--Form pour faire passer la commande au module de paiement :-->
+    @using (Html.BeginForm("Payer", "Paiement"))
+    {
+        @Html.HiddenFor(m => m.RecapitulatifVM.MessageErreur)
+        @Html.HiddenFor(m => m.RecapitulatifVM.PrixTotal)
+        if (Model.RecapitulatifVM.RendezVous != null)
+        {
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Cliente.Id)
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Masseuse.Id)
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Creneau.Id)
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Creneau.DateDebut)
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Creneau.DateFin)
+            @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.Creneau.Text)
+            if (Model.RecapitulatifVM.RendezVous.ChoixSoins != null && Model.RecapitulatifVM.RendezVous.ChoixSoins.Count > 0)
+            {
+                for (int i = 0; i < Model.RecapitulatifVM.RendezVous.ChoixSoins.Count; i++)
+                {
+                    @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.ChoixSoins[i].Id)
+                    @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.ChoixSoins[i].Libelle)
+                    @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.ChoixSoins[i].Prix)
+                    @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.ChoixSoins[i].ImageURL)
+                    @Html.HiddenFor(m => m.RecapitulatifVM.RendezVous.ChoixSoins[i].Duree)
+
+                }
+            }
+        }
+        if (Model.RecapitulatifVM.Produits != null && Model.RecapitulatifVM.Produits.Count > 0)
+        {
+            for (int i = 0; i < Model.RecapitulatifVM.Produits.Count; i++)
+            {
+                @Html.HiddenFor(m => m.RecapitulatifVM.Produits[i].Id)
+                @Html.HiddenFor(m => m.RecapitulatifVM.Produits[i].Libelle)
+                @Html.HiddenFor(m => m.RecapitulatifVM.Produits[i].Prix)
+                @Html.HiddenFor(m => m.RecapitulatifVM.Produits[i].Description)
+            }
+        }
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Payer ma commande" class="btn btn-default" />
+            </div>
+        </div>
+    }
+</div>

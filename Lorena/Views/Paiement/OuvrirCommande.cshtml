@@ -1,0 +1,9 @@
+﻿@model System.Int32
+
+<div>
+    @Ajax.ActionLink("Réouvrir la commande", "OuvrirCommande", new { Id = Model }, new AjaxOptions()
+                   {
+                       Confirm = "Êtes vous sûre de vouloir réouvrir la commande sélectionnée ?",
+                       UpdateTargetId = Model.ToString()
+                   })
+</div>

@@ -1,0 +1,9 @@
+﻿@model System.Int32
+
+<div>
+    @Ajax.ActionLink("Valider la commande", "ValiderCommande", new { Id = Model }, new AjaxOptions()
+               {
+                   Confirm = "La commande a-t-elle bien été livrée ?",
+                   UpdateTargetId = Model.ToString()
+               })
+</div>

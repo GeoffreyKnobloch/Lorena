@@ -1,0 +1,53 @@
+﻿
+@model Lorena.Models.Entity.Utilisateur
+
+
+@{
+    ViewBag.Title = "Créer un compte";
+}
+
+
+<h2>Créer un compte</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="jumbotron">
+        <div>
+            @Html.LabelFor(m => m.Login)
+            @Html.TextBoxFor(m => m.Login)
+            @Html.ValidationMessageFor(m => m.Login)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.MdpCripte)
+            @Html.TextBoxFor(m => m.MdpCripte)
+            @Html.ValidationMessageFor(m => m.MdpCripte)
+        </div>
+        <br />
+        <input type="submit" value="Créer" />
+    </div>
+    <div>
+        <h3>Informations complémentaires</h3>
+        <div>
+            @Html.LabelFor(m => m.Prenom)
+            @Html.TextBoxFor(m => m.Prenom)
+            @Html.ValidationMessageFor(m => m.Prenom)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Nom)
+            @Html.TextBoxFor(m => m.Nom)
+            @Html.ValidationMessageFor(m => m.Nom)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.Email)
+            @Html.TextBoxFor(m => m.Email)
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+        <div>
+            @Html.LabelFor(m => m.DateNaissance)
+            @Html.TextBoxFor(m => m.DateNaissance, new { @class = "date-picker", @value = "01/01/1990" })
+            @Html.ValidationMessageFor(m => m.DateNaissance)
+        </div>
+        
+    </div>
+
+}
