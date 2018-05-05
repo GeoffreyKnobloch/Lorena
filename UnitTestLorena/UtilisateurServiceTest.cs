@@ -28,7 +28,9 @@ namespace UnitTestLorena
                 Nom = "Knobloch",
                 Prenom = "Cathy",
                 DateCreation = DateTime.Now,
-                Email = "knoblochcathy@gmail.com"
+                Email = "knoblochcathy@gmail.com",
+                Login = "knoblochcathy@gmail.com",
+                MdpCripte = "mdp"
                 //DateNaissance = new DateTime(1990, 01, 01)
             };
             UtilisateurServiceProxy.Instance().AjouterCliente(cliente);
