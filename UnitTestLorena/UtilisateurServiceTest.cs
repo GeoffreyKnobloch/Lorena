@@ -22,9 +22,10 @@ namespace UnitTestLorena
 
         [TestMethod]
         public void AjouterClienteTest()
-        {
+        { 
             Cliente cliente = new Cliente()
             {
+                // 
                 Nom = "Knobloch",
                 Prenom = "Cathy",
                 DateCreation = DateTime.Now,
