@@ -6,7 +6,9 @@ using System.Web.Mvc;
 
 namespace Lorena.Controllers
 {
-
+    /// <summary>
+    /// Controller Home
+    /// </summary>
     public class HomeController : Controller
     {
         public ActionResult Index()
