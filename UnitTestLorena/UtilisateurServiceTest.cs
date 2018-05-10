@@ -18,6 +18,10 @@ namespace UnitTestLorena
             IDatabaseInitializer<BddContext> init = new DropCreateDatabaseAlways<BddContext>();
             Database.SetInitializer(init);
             init.InitializeDatabase(new BddContext());
+
+            // TODO : mettre en place la migration, asinsi qu'une méthode Seed
+            // Car pour l'instant la réinitialisation de la Bdd lors du changement du Model
+            // est très mal gérée (faire CTRL + F sur InitializeDataBase
         }
 
         [TestMethod]
