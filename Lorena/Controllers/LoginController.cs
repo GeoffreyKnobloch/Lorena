@@ -10,6 +10,9 @@ using System.Web.Security;
 
 namespace Lorena.Controllers
 {
+    /// <summary>
+    /// Controller pour le login
+    /// </summary>
     public class LoginController : Controller
     {
 
